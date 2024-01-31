@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js.js" defer></script>
+
+    <style>
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+ 
+body {
+    font-family: 'Poppins', sans-serif;
+    font-style: none;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: rgb(94, 164, 208);
+}
+ 
+.main-box{
+    justify-content: center;
+    position: relative;
+    margin-top: calc(50vh - 250px);
+    background: rgb(66, 201, 201);
+    opacity: 0.8;
+    border: solid 1px gray;
+    height: 500px;
+    padding: 20px;
+    width: 700px;
+}
+.gora {
+    height: 140px;
+    width: 440px;
+    background: rgb(66, 201, 201);
+    border: 2px solid black;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    margin-left: 100px;
+    margin-top: 50px;
+}
+.dol {
+    margin-top: 50px;
+    width: 440px;
+    height: 140px;
+    background: rgb(66, 201, 201);
+    border: 2px solid black;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    margin-left: 100px;
+}
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+}
+.naglowek {
+    font-size: 30px;
+    box-shadow: 1px 2px 1px 0 black;
+    text-shadow: 1px 2px 1px 0 black;
+    color: white;
+    position: absolute;
+    width: 650px;
+    padding: 5px;
+    top: -16%;
+    border: 1px solid gray;
+}
+.radio-box{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid gray;
+    padding: 15px ;
+}
+ 
+input[type="radio"]:not(:first-of-type){
+    margin-left: 25px;
+}
+ 
+.slider{
+    margin: 10px;
+    appearance: none;
+    height: 20px;
+    aspect-ratio: 20/1;
+    background: white;
+    outline: none;
+    opacity: 0.8;
+    transition: .2s;
+}
+.slider::-webkit-slider-thumb{
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    background: gray;
+    border: 1px solid red;
+    cursor: pointer;
+    transition: .2s;
+}
+.slider::-webkit-slider-thumb:hover{
+    background-color: green;
+}
+.button {
+    margin-top: 180px;
+    background: black;
+    color: white;
+    width: 150px;
+    height: 60px;
+}
+.X {
+    opacity: 0.6;
+    top: -5%;
+    position: absolute;
+    font-size: 1000px;
+    color: white;
+}
+    </style>
+</head>
+<p class="X">X</p>
+<body class="flex">
+    <div class="main-box">
+        <div class="naglowek">
+            <p>Generator liczb losowych z zakresu</p>
+        </div>
+            <div class="gora">
+                <p>Podaj wartość minimalną</p><br>
+                <input type="range" class="slider" name="" id="minRange" min="1" max = "100" value="50" oninput="zmien()">
+                <p>Min: </p>
+            </div>
+            <div class="dol">
+                <p>Podaj wartość maksymalną</p><br>
+                <input type="range" class="slider" name="" id="maxRange" min="1" max = "100" value="50" oninput="zmien()">
+                <p>Max: </p>
+                <button class="button">GENERUJ</button>
+            </div>
+            
+        
+    </div>
+</div>
+  
+</body>
+</html>
