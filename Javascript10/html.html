@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js.js"></script>
+    <script src="tilt.jquery.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #032020;
+            background-image: url(tlo.png);
+            background-size: 40%;
+        }
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            z-index: 10;
+            backdrop-filter: blur(15px);
+            border-top: 3px solid rgba(255, 255, 255, 0.02);
+            border-left: 3px solid rgba(255, 255, 255, 0.02);
+            box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+            transform: translateZ(20px);
+        }
+        .container .calculator {
+            position: relative;
+            display: grid;
+        }
+        .container .calculator .value {
+            grid-column:  span 4;
+            height: 140px;
+            width: 400px;
+            text-align: right;
+            border: none;
+            outline: none;
+            font-size: 3em;
+            padding: 0.5em;
+            background: transparent;
+            color: white;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.05);
+            border-right: 3px solid rgba(255, 255, 255, 0.05);
+        }
+        .container .calculator span {
+            display: grid;
+            place-items: center;
+            height: 100px;
+            width: 100px;
+            color: white;
+            font-weight: 400;
+            font-size: 2em;
+            cursor: pointer;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            border-right: 2px solid rgba(255, 255, 255, 0.05);
+            user-select: none;
+            transition: 0.1s;
+        }
+        .container .calculator span:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transition: 0.1s;
+        }
+        .container .calculator span:active {
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+        }
+        .container .calculator .clear {
+            grid-column: span 2;
+            width: 200px;
+        }
+        .container .calculator .plus {
+            grid-row: span 2;
+            height: 200px;
+        }
+        .equal {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container" data-tilt>
+        <form class="calculator" name="calc">
+            <input type="text" class="value" name="txt" readonly>
+            <span class="num clear" onclick="document.calc.txt.value = ''">C</span>
+            <span class="num" onclick="document.calc.txt.value += '/'">/</span>
+            <span class="num" onclick="document.calc.txt.value += '*'">*</span>
+            <span class="num" onclick="document.calc.txt.value += '7'">7</span>
+            <span class="num" onclick="document.calc.txt.value += '8'">8</span>
+            <span class="num" onclick="document.calc.txt.value += '9'">9</span>
+            <span class="num" onclick="document.calc.txt.value += '-'">-</span>
+            <span class="num" onclick="document.calc.txt.value += '4'">4</span>
+            <span class="num" onclick="document.calc.txt.value += '5'">5</span>
+            <span class="num" onclick="document.calc.txt.value += '6'">6</span>
+            <span class="num plus" onclick="document.calc.txt.value += '+'">+</span>
+            <span class="num" onclick="document.calc.txt.value += '1'">1</span>
+            <span class="num" onclick="document.calc.txt.value += '2'">2</span>
+            <span class="num" onclick="document.calc.txt.value += '3'">3</span>
+            <span class="num" onclick="document.calc.txt.value += '0'">0</span>
+            <span class="num" onclick="document.calc.txt.value += '00'">00</span>
+            <span class="num" onclick="document.calc.txt.value += '.'">.</span>
+            <span class="num equal" onclick="document.calc.txt.value=eval(calc.txt.value)">=</span>
+        </form>
+    </div>
+</body>
+</html>
