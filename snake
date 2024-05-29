@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }       
+        .settings {
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h2>Snake</h2>
+    <div class="settings">
+        <label for="size">Wielkość pola (bloki):</label>
+        <input type="range" id="size" name="size" value="20" min="10" max="50" oninput="updateSizeValue(this.value)">
+        <span id="sizeValue">20</span>
+        <br>
+        <label for="speed">Prędkość (fps):</label>
+        <input type="range" id="speed" name="speed" value="10" min="5" max="30" oninput="updateSpeedValue(this.value)">
+        <span id="speedValue">10</span>
+        <br>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+    <div>
+        <p>Highest Score: <span id="highestScore">0</span></p>
+    </div>
+    <canvas id="board"></canvas>
+    <script>
+        // initial settings
+        var blockSize = 25;
+        var rows = 20;
+        var cols = 20;
+        var speed = 10;
+        var board;
+        var context;
+        var interval;
+        var score = 0;
+        var highestScore = localStorage.getItem("highestScore") || 0;
+        document.getElementById("highestScore").innerText = highestScore;
+
+        //snake (start at 5,5)
+        var snakeX = blockSize * 5;
+        var snakeY = blockSize * 5;
+        var velocityX = 0;
+        var velocityY = 0;
+        var snakeBody = [];
+
+        //apple
+        var appleX = blockSize * 10;
+        var appleY = blockSize * 10;
+        var gameOver = false;
+
+        function placeApple() {
+            appleX = Math.floor(Math.random() * cols) * blockSize;
+            appleY = Math.floor(Math.random() * rows) * blockSize;
+        }
+
+        window.onload = function() {
+            board = document.getElementById("board");
+            context = board.getContext("2d");
+            restartGame();
+        }
+
+        function changeDirection(event) {
+            switch(event.code) {
+                case "ArrowLeft":
+                    if (velocityX != 1) {
+                        velocityX = -1;
+                        velocityY = 0;
+                    }
+                    break;
+                case "ArrowUp":
+                    if (velocityY != 1) {
+                        velocityX = 0;
+                        velocityY = -1;
+                    }
+                    break;
+                case "ArrowRight":
+                    if (velocityX != -1) {
+                        velocityX = 1;
+                        velocityY = 0;
+                    }
+                    break;
+                case "ArrowDown":
+                    if (velocityY != -1) {
+                        velocityX = 0;
+                        velocityY = 1;
+                    }
+                    break;
+                default:
+                    // handle other key codes if needed
+                    break;
+            }
+        }
+
+        function update() {
+            if(gameOver) {
+                return;
+            }
+            context.fillStyle = "black";
+            context.fillRect(0, 0, board.width, board.height);
+            
+            context.fillStyle = "red";
+            context.fillRect(appleX, appleY, blockSize, blockSize);
+
+            if(snakeX == appleX && snakeY == appleY) {
+                snakeBody.push([appleX, appleY]); // add in place of apple
+                score++;
+                if(score > highestScore) {
+                    highestScore = score;
+                    localStorage.setItem("highestScore", highestScore);
+                    document.getElementById("highestScore").innerText = highestScore;
+                }
+                placeApple();
+            }
+
+            for(let i = snakeBody.length - 1; i > 0; i--) {
+                snakeBody[i] = snakeBody[i-1];
+            }
+            if(snakeBody.length) { // if snakeBody is not empty
+                snakeBody[0] = [snakeX, snakeY];
+            }
+
+            context.fillStyle = "lime";
+            snakeX += velocityX * blockSize;
+            snakeY += velocityY * blockSize;
+            context.fillRect(snakeX, snakeY, blockSize, blockSize);
+            for(let i = 0; i < snakeBody.length; i++) {
+                context.fillRect(snakeBody[i][0], snakeBody[i][1], blockSize, blockSize);
+            }
+
+            if(snakeX < 0 || snakeX >= board.width || snakeY < 0 || snakeY >= board.height) {
+                gameOver = true;
+                alert("Game Over. Your score: " + score);
+                score = 0;
+            }
+            for(let i = 0; i < snakeBody.length; i++) {
+                if(snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
+                    gameOver = true;
+                    alert("Game Over. Your score: " + score);
+                    score = 0;
+                }
+            }
+        }
+
+        function restartGame() {
+            clearInterval(interval);
+            rows = parseInt(document.getElementById("size").value);
+            cols = rows;
+            speed = parseInt(document.getElementById("speed").value);
+            board.height = rows * blockSize;
+            board.width = cols * blockSize;
+            snakeX = blockSize * 5;
+            snakeY = blockSize * 5;
+            velocityX = 0;
+            velocityY = 0;
+            snakeBody = [];
+            gameOver = false;
+            placeApple();
+            document.addEventListener("keyup", changeDirection);
+            interval = setInterval(update, 1000 / speed);
+        }
+
+        function updateSizeValue(value) {
+            document.getElementById("sizeValue").innerText = value;
+        }
+
+        function updateSpeedValue(value) {
+            document.getElementById("speedValue").innerText = value;
+        }
+    </script>
+</body>
+</html>
